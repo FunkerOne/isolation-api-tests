@@ -3,6 +3,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 from tests.tools.config.grpc import GRPCClientTestConfig, GRPCServerTestConfig
 from tests.tools.config.http import HTTPClientTestConfig, HTTPServerTestConfig
 from tests.tools.config.kafka import KafkaClientTestConfig
+from tests.tools.config.postgres import PostgresClientTestConfig
 
 
 class TestSettings(BaseSettings):
@@ -19,6 +20,8 @@ class TestSettings(BaseSettings):
         env_file_encoding="utf-8",
         env_nested_delimiter=".",
     )
+
+    operations_postgres_client: PostgresClientTestConfig
 
     mock_http_server: HTTPServerTestConfig
     mock_grpc_server: GRPCServerTestConfig
