@@ -1,7 +1,7 @@
 import uuid
 
 import allure
-from httpx import Response
+from httpx import Response, QueryParams
 
 from tests.clients.http.client import HTTPTestClient, build_http_test_client
 from tests.config import test_settings
@@ -10,7 +10,6 @@ from tests.schema.operations import (
     GetOperationResponseTestSchema,
     GetOperationsResponseTestSchema,
 )
-from tests.tools.fakers import fake
 from tests.tools.logger import get_test_logger
 from tests.tools.routes import APITestRoutes
 
@@ -20,23 +19,23 @@ class OperationsHTTPTestClient(HTTPTestClient):
     HTTP API-клиент тестового слоя для operations-service.
     """
 
-    @allure.step("Get operation details")
+    @allure.step("Get operation")
     def get_operation_api(
         self,
         operation_id: uuid.UUID,
     ) -> Response:
         return self.get(
-            f"{APITestRoutes.OPERATIONS}/operations/{operation_id}",
+            f"{APITestRoutes.OPERATIONS}/{operation_id}",
         )
 
-    @allure.step("Get operations details")
+    @allure.step("Get operations")
     def get_operations_api(
         self,
         query: GetOperationsQueryTestSchema,
     ) -> Response:
         return self.get(
-            f"{APITestRoutes.OPERATIONS}/operations",
-            params=query.model_dump(by_alias=True, exclude_none=True),
+            f"{APITestRoutes.OPERATIONS}",
+            params=QueryParams(**query.model_dump(by_alias=True, exclude_none=True)),
         )
 
     def get_operation(
